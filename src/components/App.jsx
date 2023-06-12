@@ -15,17 +15,29 @@ export function App() {
   const [showModal, setShowModal] = useState(false);
   const [modalImageUrl, setModalImageUrl] = useState('');
 
+  // useEffect(() => {
+  //   fetchImages();
+  // }, [searchQuery, currentPage]);
+
+  // const fetchImages = async () => {
+  //   setIsLoading(true);
+  //   const { hits, totalHits } = await fetchPictures(searchQuery, currentPage);
+  //   setImages(prevImages => [...prevImages, ...hits]);
+  //   setHasMoreImages(currentPage < Math.ceil(totalHits / 12));
+  //   setIsLoading(false);
+  // };
+
   useEffect(() => {
+    const fetchImages = async () => {
+      setIsLoading(true);
+      const { hits, totalHits } = await fetchPictures(searchQuery, currentPage);
+      setImages(prevImages => [...prevImages, ...hits]);
+      setHasMoreImages(currentPage < Math.ceil(totalHits / 12));
+      setIsLoading(false);
+    };
+
     fetchImages();
   }, [searchQuery, currentPage]);
-
-  const fetchImages = async () => {
-    setIsLoading(true);
-    const { hits, totalHits } = await fetchPictures(searchQuery, currentPage);
-    setImages(prevImages => [...prevImages, ...hits]);
-    setHasMoreImages(currentPage < Math.ceil(totalHits / 12));
-    setIsLoading(false);
-  };
 
   const handleSearch = searchQuery => {
     setImages([]);
